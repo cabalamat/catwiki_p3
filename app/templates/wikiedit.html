@@ -1,0 +1,82 @@
+{# wikiedit.html
+   =============
+
+Editting a page in a wiki
+#}
+{% extends "wiki_page.html" %}
+
+
+{% block wikiCommands %}
+<p class="command-header">Commands</p>
+
+<p><a class='btn btn-success' onclick="submit()">
+<i class='fa fa-save'></i> Save changes</a></p>
+
+<p><a class='btn btn-default' href="/{{siteName}}/w/{{pathName}}">
+<i class='fa fa-undo'></i>
+Cancel changes</a></p>
+
+<p><a class='btn btn-primary'>
+<i class='fa fa-files-o'></i>
+Rename article</a></p>
+
+<hr>
+<p><a class='btn btn-danger' onclick="deleteArticle()">
+<i class='fa fa-times'></i> Delete article</a></p>
+{% endblock wikiCommands %}
+
+
+{% block wikiContents %}
+<div id='edit_toolbar'>
+  <span onclick='addAround("**", "**")'>
+    <i class='fa fa-bold'></i></span>
+  <span onclick='addAround("*", "*")'>
+    <i class='fa fa-italic'></i></span>
+  <span onclick='addAround("<s>", "</s>")'>
+    <i class='fa fa-strikethrough'></i></span>
+  <span onclick='addAround("<sup>", "</sup>")'>
+    <i class='fa fa-superscript'></i></span>
+  <span onclick='addAround("<sub>", "</sub>")'>
+    <i class='fa fa-subscript'></i></span>
+  <span onclick='addAround("[", "]()")'>
+    <i class='fa fa-link'></i></span>   
+  <span onclick='addAround("![", "](filename.png)")'>
+    <i class='fa fa-image'></i></span>    
+  <span onclick='addTable()'>
+    <i class='fa fa-table'></i></span>
+  <span onclick='blockquote()'>
+    <i class='fa fa-quote-left'></i></span>
+  <span onclick='bulletList()'>
+    <i class='fa fa-list-ul'></i></span>
+  <span onclick='numberedList()'>
+    <i class='fa fa-list-ol'></i></span>
+  <span onclick='monospace()'>
+    <tt class='mono_tool'>mono</tt></span>
+  <span onclick='addAround("<mark>", "</mark>")'>
+    <mark>&nbsp;mark&nbsp;</mark></span>
+</div>
+
+<form id="theForm" method="POST"
+      action="/{{siteName}}/wikiedit/{{pathName}}">
+  <input id="delete_record" name="delete" type="hidden" value="0">
+  <textarea name=source id=source rows=25 cols=70>{{source}}</textarea>
+</form>
+{% endblock wikiContents %}
+
+
+{% block atend %}
+<script>
+function submit(){
+    console.log("submit");
+    document.forms['theForm'].submit();
+}
+
+function deleteArticle(){
+    console.log("deleteArticle");
+    document.getElementById("delete_record").value = "1";
+    document.forms['theForm'].submit();
+}
+
+</script>
+{% endblock atend %}
+{# end #}

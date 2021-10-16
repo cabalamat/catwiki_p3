@@ -254,7 +254,8 @@ def getArticleBody(siteName, pathName):
     articlePan = getArticlePan(siteName, pathName)
     #prvars()
     if butil.fileExists(articlePan):
-        src = butil.readFileUtf8(articlePan)
+        #src = butil.readFileUtf8(articlePan)
+        src = butil.readFile(articlePan)
         src = convertQuickLinks(src)
         contents = md(src)
         return pathName, contents

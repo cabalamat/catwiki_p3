@@ -70,6 +70,59 @@ def getFilenames(dir: str, pattern:str="*") -> List[str]:
     matching.sort()
     return matching
 
+
+def getFilesDirs(topDir: str) -> Tuple[List[str],List[str]]:
+    """ Return a list of all the subdirectories of a directory.
+    @param topDir 
+    @return = has two members (files, dirs) each of which
+       are lists of strings. each member is the basename (i.e. the name
+       under (topDir), not the full pathname)
+    """
+    filesAndDirs = os.listdir(topDir)
+    files = []
+    dirs = []
+    for ford in filesAndDirs:
+        fullPath = os.path.join(topDir, ford)
+        if isDir(fullPath):
+            dirs.append(ford)
+        else:
+            files.append(ford)
+    files.sort()
+    dirs.sort()
+    return (files, dirs)
+
+
+def isDir(s: str) -> bool:
+    try:
+        s = os.path.expanduser(s)
+        mode = os.stat(s)[stat.ST_MODE]
+        result = stat.S_ISDIR(mode)
+        return result
+    except:
+        return False
+
+#---------------------------------------------------------------------
+# read and write files:
+
+def readFile(filename: str) -> str:
+    pn = normalizePath(filename)
+    f = open(pn, 'r')
+    s = f.read()
+    f.close()
+    return s
+
+
+def writeFile(filename: str, newValue: str):
+    pn = normalizePath(filename)
+    # create directories if they don't exist
+    dirName = os.path.dirname(pn)
+    if dirName:
+        if not entityExists(dirName):
+            os.makedirs(dirName)
+    f = open(pn, 'w')
+    f.write(newValue)
+    f.close()
+
 #---------------------------------------------------------------------
 # formatting functions
 
