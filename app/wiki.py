@@ -51,7 +51,7 @@ def wikiPage(siteName, pathName):
     mimeType = getMimeType(pathName)
     if mimeType:
         pan = getDirPan(siteName, pathName)
-        data = open(pan).read()
+        data = open(pan, 'rb').read()
         return Response(data, mimetype=mimeType)
 
     if pathName=="" or pathName[-1:]=="/":
@@ -349,7 +349,7 @@ def getIndex(siteName, pathName):
     """ get an index of a directory.
     @param siteName::str
     @param pathName::str
-    @return::(str,str) =title,html
+    @return::(str,str) = title,html
     """
     def isArticle(fn):
         """ is a filename an article? """
@@ -434,7 +434,8 @@ def getTitle(pan):
     """ get the title of an article
     @param pan [str] full pathname to the article
     """
-    src = butil.readFile(pan).decode('utf-8', 'ignore')
+    #src = butil.readFile(pan).decode('utf-8', 'ignore')
+    src = butil.readFile(pan)
     lines = src.split("\n")
     if len(lines)==0: return ""
     t = md(convertQuickLinks(lines[0].strip(" #")))
@@ -465,7 +466,7 @@ def bsColumns(hs, numColumns, linSize='md'):
             + "<br>\n".join(hs)
             + "</div></div></div>\n")
         return h
-    columnClass = "col-{}-{}".format(linSize, 12/numColumns)
+    columnClass = "col-{}-{}".format(linSize, int(12/numColumns))
     itemsPerRow = int(math.ceil(len(hs)*1.0 / numColumns))
 
     h = "<div class='container-fluid'><div class='row'>\n"
