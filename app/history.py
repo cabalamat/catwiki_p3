@@ -7,7 +7,7 @@ from flask import request, redirect, Response
 import git
 
 from ulib import butil
-from ulib.butil import form, dpr
+from ulib.butil import form, dpr, dpvars
 
 import allpages
 from allpages import *
@@ -23,22 +23,22 @@ def getRepo(siteName, pathName):
     @return::Repo = a git repository
     """
     dp = wiki.getDirPan(siteName, "")
-    prvars("dp")
+    dpvars("dp")
     repo = git.Repo(dp)
-    prvars("dp repo")
+    dpvars("dp repo")
     return repo
 
 #---------------------------------------------------------------------
 
 @app.route("/<siteName>/history/<path:pathName>")
 def history(siteName, pathName):
-    pr("siteName=%r pathName=%r", siteName, pathName)
+    dpr("siteName=%r pathName=%r", siteName, pathName)
     tem = jinjaEnv.get_template("history.html")
     
     repo = getRepo(siteName, pathName)
     #lsf = repo.git.log(form("--follow {}.md", pathName))
     commits = list(repo.iter_commits(paths=pathName+".md"))
-    prvars("commits")
+    dpvars("commits")
     
     h = tem.render(
         title = pathName,
@@ -66,7 +66,7 @@ def getCommitsTable(pathName, commits):
     for co in commits:
         path = pathName+".md"
         fileData = (co.tree / path).data_stream.read()
-        prvars("fileData")
+        dpvars("fileData")
         
         h += form("""<tr> 
     <td><tt>{date}</tt></td>

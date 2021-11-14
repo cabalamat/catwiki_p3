@@ -210,6 +210,46 @@ def pretty(ob, indent:int=4) -> str:
     s = pp.pformat(ob)
     return s
 
+
+def _prVarsSelf(cLocals, vn):
+    selfOb = cLocals['self']
+    value = selfOb.__dict__[vn[5:]]
+    r = " %s=%r" % (vn, value)
+    return r
+
+def dpvars(varNames =None):
+    """ debug print values """
+    if isinstance(varNames, str):
+       vnList = varNames.split()   
+    caller = inspect.stack()[1]
+    cLocals = caller[0].f_locals # local variables of caller
+    #print cLocals
+    fileLine = caller[2]
+    functionName = caller[3]
+    filename = caller[0].f_code.co_filename
+    output = "%s():%d" % (functionName, fileLine)
+    outputForSelf = " "*len(output)
+    printAllSelf = False
+    if varNames==None:
+        for vn in sorted(cLocals.keys()):
+            output += " %s=%r" %(vn, cLocals[vn])
+        if cLocals.has_key('self'): printAllSelf = True
+    else:    
+        for vn in vnList:
+            if vn.startswith("self."):
+               output += _prVarsSelf(cLocals, vn)     
+            elif vn in cLocals:
+               output += " %s=%r" %(vn, cLocals[vn]) 
+               if vn=='self': printAllSelf = True
+    if printAllSelf:
+        selfOb = cLocals['self']
+        for insVar in sorted(selfOb.__dict__.keys()):
+           val = selfOb.__dict__[insVar]
+           output += "\n" + outputForSelf + " self.%s=%r"%(insVar,val)
+    sys.stderr.write(output + "\n")
+   
+#---------------------------------------------------------------------
+
 #---------------------------------------------------------------------
 
 def myStr(x):

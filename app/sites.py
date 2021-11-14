@@ -70,7 +70,6 @@ def siteInfo(siteName):
         realPanInfo = form("<p>Canonical path is <code>{realPan}"
             "</code> .</p>\n",
             realPan = realPan)
-    #prvars("dirPan realPan realPanInfo")
     fns, dirs = butil.getFilesDirs(dirPan)
     if butil.fileExists(butil.join(dirPan, "home.md")):
          homePageInfo = form("View <a href='/{siteName}/w/home'>"

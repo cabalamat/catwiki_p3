@@ -163,7 +163,6 @@ def locationSitePath(siteName, pathName):
         siteName=siteName)
     h += ("\n<span class='loc-wiki-path'><a href='/%s/w/'>%s</a>"
          % (siteName, useForDir))
-    #prvars("pathName sp")
     for ix, part in enumerate(sp):
         item = ("<a href='/%s/w/%s'>%s</a>"
             %(siteName, pathJoin(sp,ix), part))
@@ -252,9 +251,7 @@ def getArticleBody(siteName, pathName):
     @return ::(str,str) =title,html
     """
     articlePan = getArticlePan(siteName, pathName)
-    #prvars()
     if butil.fileExists(articlePan):
-        #src = butil.readFileUtf8(articlePan)
         src = butil.readFile(articlePan)
         src = convertQuickLinks(src)
         contents = md(src)
@@ -273,7 +270,6 @@ def getArticlePan(siteName, pathName):
     @return::str = the full pathname to the article (which may or may
         not exist). If the site doesn't exist, returns "".
     """
-    #prvars("siteName pathName")
     if not siteName: return ""
     for stub in config.SITE_STUBS:
         _, dirs = butil.getFilesDirs(stub)
@@ -295,11 +291,9 @@ def getArticlePan2(stub, siteName, pathName):
         not exist). If the site doesn't exist, returns "".
     """
     pathNameParts = pathName.split("/")
-    #prvars("pathNameParts")
     pnLastPart = pathNameParts[-1]
     normLP = normArticleName(pnLastPart)
     pathName2 = "/".join(pathNameParts[:-1] + [normLP])
-    #prvars("normLP pathName2")
     
     useDir = butil.join(stub, siteName, "/".join(pathNameParts[:-1]))
     if articleExists(useDir, normLP):
@@ -309,7 +303,6 @@ def getArticlePan2(stub, siteName, pathName):
     articleNames = getArticleFilesWithoutExt(useDir)
     for an in articleNames:
         nan = normArticleName(an)
-        #prvars("an nan")
         if nan==normLP:
             return butil.join(useDir, an + ".md")
     #//for    
@@ -318,7 +311,6 @@ def getArticlePan2(stub, siteName, pathName):
     return butil.join(useDir, normLP + ".md")
     
     pn = butil.join(stub, siteName, pathName2 + ".md")
-    prvars("pn")
     return pn
      
 def articleExists(d, an):
@@ -361,7 +353,6 @@ def getIndex(siteName, pathName):
     else:
         uPath = pathName
     dirPan = getDirPan(siteName, uPath)
-    #prvars()
     if not os.path.isdir(dirPan):
         h = "<p>Directory {} does not exist.</p>\n".format(pathName)
         return h
