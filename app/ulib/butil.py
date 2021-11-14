@@ -52,6 +52,16 @@ def fileExists(fn: str) -> bool:
     mode = os.stat(fn)[stat.ST_MODE]
     return stat.S_ISREG(mode)
 
+
+def entityExists(fn: str) -> bool:
+    """ Does a file-like entity (eg. file, symlink, directory) exist?
+    @param fn = a filename or pathname
+    @return = True if (fn) is the filename of an existing entity.
+    """
+    fn = os.path.expanduser(fn)
+    exists = os.access(fn, os.F_OK)
+    return exists
+
 def getFilenames(dir: str, pattern:str="*") -> List[str]:
     """ Return a list of all the filenames in a directory that match a
     pattern. Note that this by default returns files and subdirectories.

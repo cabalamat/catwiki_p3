@@ -122,7 +122,7 @@ def wikiedit(siteName, pathName):
                  ), 303)
         else:
             newSource = request.form['source']
-            prvars("newSource")
+            dpr("newSource=%r", newSource)
             saveArticleSource(siteName, pathName, newSource)
             return redirect("/{siteName}/w/{pathName}".format(
                     siteName = siteName,
@@ -237,12 +237,12 @@ def saveArticleSource(siteName, pathName, source):
     #pr("saving article %s:[%s] -----BODY:-----\n%s\n-----END-----",
     #    siteName, pathName, source)
     articlePan = getArticlePan(siteName, pathName)
-    butil.writeFileUtf8(articlePan, source)
+    butil.writeFile(articlePan, source)
 
 def getArticleSource(siteName, pathName):
     articlePan = getArticlePan(siteName, pathName)
     if butil.fileExists(articlePan):
-        src = butil.readFileUtf8(articlePan)
+        src = butil.readFile(articlePan)
         return src
     else:
         return ""
