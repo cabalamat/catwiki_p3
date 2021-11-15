@@ -8,6 +8,7 @@ itsdangerous==2.0.1
 Jinja2==3.0.2
 Markdown==3.3.4
 MarkupSafe==2.0.1
+Pygments==2.10.0
 Send2Trash==1.8.0
 smmap==4.0.0
 typing-extensions==3.10.0.2
