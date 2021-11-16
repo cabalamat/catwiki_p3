@@ -1,6 +1,6 @@
 # Credits
 
-Sitebox was written in [Python](https://www.python.org/) using the [Flask](http://flask.pocoo.org/) web framework.
+CatWiki was written in [Python](https://www.python.org/) using the [Flask](http://flask.pocoo.org/) web framework.
 
 It uses the [<i class='fa fa-flag'></i> Font Awesome](http://fortawesome.github.io/Font-Awesome/) icon set. 
 

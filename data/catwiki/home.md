@@ -1,4 +1,4 @@
-# <i class='icon-icon_e600'></i> CatWiki Home Page
+# <i class='icon-icon_e600'></i> CatWiki *p3* Home Page
 
 CatWiki is very simple wiki software that stores its articles as text files. It was originally called *SiteBox*.
 
@@ -8,7 +8,7 @@ CatWiki is very simple wiki software that stores its articles as text files. It 
 * Uses an [enhanced](CatWiki enhancements to Markdown) version of the the [[Markdown]] markup language
 * Allows [[multiple wikis]] per installation, each one in its own directory.
 * Allows subdirectories. You can navigate through the directories using the web interface. If the directory includes image files, the web page shows thumbnails of them.
-* You can add [<i class="fa fa-font-awesome"></i> Font Awesome icons](http://fontawesome.io/icons/) in your wiki articles.
+* You can add [<i class="fa fa-font-awesome"></i> Font Awesome icons](http://fontawesome.io/icons/) in your wiki articles. (see [[Font Awesome]]).
 
 ## Technology Used
 
