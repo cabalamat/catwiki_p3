@@ -15,6 +15,8 @@ and looks like this: <i class='fa fa-pencil'></i>. To put it inside your documen
 
 As you can see Font Awesome 4.7 icons are implemented as 2 CSS classes (`fa` and `fa-pencil`) inside an HTML `<i>` tag.
 
+There are various effects you can add to an icon, such as making it larger:  <i class='fa fa-pencil fa-lg'></i> (with `fa-lg`);  <i class='fa fa-pencil fa-2x'></i> (with `fa-2x`); <i class='fa fa-pencil fa-3x'></i> (with `fa-3x`)
+
 ## How to use a Font Awesome 5 icon
 
 Font Awesome 5 works similar to 4.7, except that the first CSS class isn't `fa`, instead it is one of `fas` (for solid), `far` (regular)
@@ -32,16 +34,30 @@ and regular: <i class='far fa-address-book'></i> (`far`) varients.
 
 Because Font Awesome icons are implemented as fonts, they can use different colours and font sizes, just like normal characters. 
 
-For example, if you put this in your wiki source:
+For example, you might want large yellow text on a red background, in which case you could put something like this in your wiki source:
 
 ```html
 <span style='color:#ff0; background:#900; font-size:20px; padding:2px'><i class='fas fa-exclamation-triangle'></i> don't press the self-destruct button.</span>
 ```
 
-It looks like this:
+And you would get this result:
 
 <span style='color:#ff0; background:#900; font-size:20px; padding:2px'><i class='fas fa-exclamation-triangle'></i> don't press the self-destruct button.</span>
 
+### The <i class='icon-cat'></i> CatWiki cat icon
+
+The cat icon is not Part of Font Awesome but works in a similar way so I'll cover it here. The HTML for it is:
+
+* <i class='icon-icon_e600'></i> `<i class='icon-icon_e600'></i>`
+* <i class='icon-cat'></i> `<i class='icon-cat'></i>`
+
+Font Awesone's classes for enlarging and spinnin also work with the cat icon:
+
+* Enlarged lg: <i class='icon-cat fa-lg'></i> (code: `<i class='icon-cat fa-lg'></i>`)
+* Enlarged x2: <i class='icon-cat fa-2x'></i> (code: `<i class='icon-cat fa-2x'></i>`)
+* Enlarged x3: <i class='icon-cat fa-3x'></i> (code: `<i class='icon-cat fa-3x'></i>`)
+
+Spinning doesn't work with the cat icon, however.
 
 ## See also
 

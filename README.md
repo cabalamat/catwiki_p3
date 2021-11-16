@@ -8,10 +8,11 @@ Python 3.5 and later.
 ## Features
 
 * Stores articles as text files, so they are easy to back up and manipulate. Even if the wiki software goes down, you can still get at your notes.
-* Uses an enhanced version of the the Markdown markup language. In particular, it does code highlighting using [Pygments](https://pygments.org/).
+* Uses an enhanced version of the the Markdown markup language. 
+* If your wiki pages contain source code, it is highlighted using [Pygments](https://pygments.org/).
 * Allows multiple wikis per installation, each one in its own directory.
 * Allows subdirectories. You can navigate through the directories using the web interface. If the directory includes image files, the web page shows thumbnails of them.
-* You can add Font Awesome icons in your wiki pages.
+* You can add Font Awesome icons (both 4.7 and 5.15) in your wiki pages.
 
 ## Technology Used
 

@@ -588,7 +588,7 @@ tt.mono_tool {
     //-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-icon_e600:before {
+.icon-icon_e600:before, .icon-cat:before {
     content: "\e600";
 }
 .icon-icon_e601:before {
