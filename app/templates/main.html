@@ -24,34 +24,17 @@ Uses Twitter Bootstrap
 
 <body>
 {%block body_start %}
-
-      <!-- Sidebar -->
-      <div class="navbar navbar-default navbar-top">
+      <!-- Sidebar -->     
         {%block topbar %}
-      <div class="container-liquid">
-        <div class="navbar-header">
-          <a href="/" class="navbar-brand"><!--i class='icon-icon_e600'></i-->
-          <i class='icon-icon_e600'></i> <b>CatWiki</b> <i>p3</i></a>
-        </div>
-        <div class="navbar-collapse collapse" id="navbar-main">
-          <ul class="nav navbar-nav">
-
-            <li>
-              <a href="/catwiki/w/home"><i class='fa fa-info-circle'></i> About</a>
-            </li>
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right" style="padding-right:20px;">
-            <li class="dropdown alerts-dropdown help-popup">
-              <a href="/catwiki/w/help">
-                <i class="fa fa-question-circle" id="myelement"></i> Help
-              </a>
-            </li>
-          </ul>
-
-        </div>
-      </div>
-    </div>
+        <div class="cw-navbar">
+          <i class='icon-cat'></i> <b style="font-size:115%">CatWiki</b> <i>p3</i>
+          <a href="/catwiki/w/home"><i class='fa fa-info-circle'></i> About</a>
+          <div style="float:right">
+            <a href="/catwiki/w/help">
+              <i class="fa fa-question-circle" id="myelement"></i> Help
+            </a>  
+          </div>  
+        </div>    
         {%endblock topbar %}
 {% endblock body_start %}
 

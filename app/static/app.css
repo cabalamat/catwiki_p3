@@ -109,10 +109,26 @@ h6 { font-size: 100%; }
 /*------------------------------------------------------------------*/
 /* navbar */
 
-.navbar {
+.ddddnavbar {
   border-radius: 0px !important;
   margin-bottom: 0px;
+  //background-color: #4499dd;
 }
+
+.cw-navbar, .cw-navbar a {
+  font-size: 17px;  
+  color: #fff;
+  background: #28c;
+  padding: 10px 12px 6px 12px;
+  text-decoration: none;
+}
+
+.cw-navbar a:hover {
+  background: #026;
+  text-decoration: none;
+  color: #fff;
+}
+
 
 
 /*------------------------------------*/
