@@ -13,6 +13,7 @@ from ulib.butil import form, dpr, printargs
 import config
 import allpages
 from allpages import *
+import history
 
 
 #---------------------------------------------------------------------
@@ -121,13 +122,20 @@ def wikiedit(siteName, pathName):
                     pathName = articleDirectory,
                  ), 303)
         else:
+            dpr("Saving changes...")
             newSource = request.form['source']
             dpr("newSource=%r", newSource)
             saveArticleSource(siteName, pathName, newSource)
+            
+            # update git repository
+            history.commitChanges(siteName, pathName)
+                
             return redirect("/{siteName}/w/{pathName}".format(
                     siteName = siteName,
                     pathName = pathName,
                  ), 303)
+        
+            
     #//if
     title = pathName
 

@@ -16,17 +16,33 @@ import wiki
 
 #---------------------------------------------------------------------
 
-def getRepo(siteName, pathName):
+def getRepo(siteName: str, pathName: str) -> git.Repo:
     """
-    @param siteName::str
-    @param pathName::str
-    @return::Repo = a git repository
+    siteName = the name of the wiki within catWiki
+    pathName = the path to the page within the wiki
+    @return = a git repository
     """
     dp = wiki.getDirPan(siteName, "")
     dpvars("dp")
     repo = git.Repo(dp)
     dpvars("dp repo")
     return repo
+
+def commitChanges(siteName: str, pathName: str):
+    """ Commit changes to a repository, when (pathname) has
+    changed.
+    """
+    return
+    repo = getRepo(siteName, pathName)
+    fileName = pathName + ".md"
+    dpvars("siteName, pathName fileName")
+    repo.index.add([fileName])
+    try:
+        repo.git.commit(all=True, message="committed "+pathName)
+    except:
+        pass
+    
+
 
 #---------------------------------------------------------------------
 
@@ -65,8 +81,11 @@ def getCommitsTable(pathName, commits):
 """
     for co in commits:
         path = pathName+".md"
+        
         fileData = (co.tree / path).data_stream.read()
-        dpvars("fileData")
+        coTree = co.tree
+        #dpvars("fileData coTree")
+        
         
         h += form("""<tr> 
     <td><tt>{date}</tt></td>
