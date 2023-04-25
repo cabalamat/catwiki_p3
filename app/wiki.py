@@ -6,6 +6,7 @@ from flask import request, redirect, Response
 
 import markdown
 from markdown.extensions.toc import TocExtension
+from markdown.extensions.codehilite import CodeHiliteExtension
 
 from ulib import butil
 from ulib.butil import form, dpr, printargs
@@ -199,7 +200,8 @@ def deleteArticle(siteName, pathName):
 markdownProcessor = markdown.Markdown(extensions=['extra',
     'sane_lists',
     'toc',
-    'codehilite',
+    #'codehilite',
+    CodeHiliteExtension(guess_lang=False),
     ])
 
 def md(s):

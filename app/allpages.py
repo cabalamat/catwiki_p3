@@ -2,7 +2,7 @@
 
 import os.path
 import collections
-import cgi
+import html
 
 import config
 
@@ -68,7 +68,7 @@ def minToHMS(m):
     return r
 
 def htmlEscape(s):
-    return cgi.escape(s)
+    return html.escape(s)
 htmlEsc = htmlEscape
 
 #---------------------------------------------------------------------
