@@ -1,6 +1,7 @@
 # <i class='icon-icon_e600'></i> CatWiki *p3* Home Page
 
-![Catwiki colour icon](cw_icon_b.png)
+<span style="float:right">![Catwiki colour icon](cw_icon_b.png)</span>
+
 
 CatWiki is very simple wiki software that stores its articles as text files. It was originally called *SiteBox*.
 

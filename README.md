@@ -1,7 +1,7 @@
 # About CatWiki 
 
 
-![Catwiki colour icon](data/catwiki/cw_icon_b.png)
+<span style="float:right">![Catwiki colour icon](data/catwiki/cw_icon_b.png)</span>
 
 
 **CatWiki** (aka Catwiki) is very simple wiki software that stores its articles as text files.
