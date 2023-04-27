@@ -1,5 +1,7 @@
 # <i class='icon-icon_e600'></i> CatWiki *p3* Home Page
 
+![Catwiki colour icon](cw_icon_b.png)
+
 CatWiki is very simple wiki software that stores its articles as text files. It was originally called *SiteBox*.
 
 ## Features
@@ -24,6 +26,7 @@ CatWiki is written in Python and uses the Flask lightweight web framework.
 ## See also
 
 * [[Installing CatWiki]]
+* [[History]]
 * [Help pages](help)
 * [[Screenshots]]
 * [Frequently Asked Questions](faq)

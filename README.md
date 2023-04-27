@@ -1,5 +1,9 @@
 # About CatWiki 
 
+
+![Catwiki colour icon](data/catwiki/cw_icon_b.png)
+
+
 **CatWiki** (aka Catwiki) is very simple wiki software that stores its articles as text files.
 
 Catwiki was originally written for Python 2.8. This version (`catwiki_p3`) is Catwiki for 
