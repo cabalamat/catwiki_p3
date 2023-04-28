@@ -18,29 +18,6 @@ import history
 
 
 #---------------------------------------------------------------------
-# debugging
-
-def prt(formatStr="", *args):
-    """ For debugging -- print a message, prepended with timestamp, function,
-    line number.
-    Uses old-style '%' format strings.
-    @param formatStr::str
-    @param args::[]
-    """
-    now = datetime.datetime.now()
-    nowStr = now.strftime("%H:%M:%S.%f")
-    caller = inspect.stack()[1]
-    fileLine = caller[2]
-    functionName = caller[3]
-
-    if len(args)>0:
-        s = formatStr % args
-    else:
-        s = formatStr
-    t = "%s %s():%d: " % (nowStr, functionName, fileLine)
-    sys.stderr.write(t + s + "\n")
-
-#---------------------------------------------------------------------
 
 @app.route("/<siteName>/w/")
 def wikiPageEmptyPath(siteName):
@@ -97,58 +74,6 @@ def getMimeType(pathName):
     return ""
 
 #---------------------------------------------------------------------
-
-@app.route("/<siteName>/wikiedit/<path:pathName>", methods=['POST', 'GET'])
-def wikiedit(siteName, pathName):
-    prt("siteName=%r pathName=%r", siteName, pathName)
-    tem = jinjaEnv.get_template("wikiedit.html")
-
-    if pathName=="" or pathName[-1:]=="/":
-        # can't edit directories
-        return redirect("/{siteName}/w/{pathName}".format(
-                siteName = siteName,
-                pathName = pathName,
-            ), 301)
-    else:
-        source = getArticleSource(siteName, pathName)
-        if source == "":
-            source = "# " + pathName + "\n"
-    if request.method=='POST':
-        if request.form['delete'] == "1":
-            # delete this article
-            deleteArticle(siteName, pathName)
-            articleDirectory = getArticleDirname(pathName)
-            return redirect("/{siteName}/w/{pathName}".format(
-                    siteName = siteName,
-                    pathName = articleDirectory,
-                 ), 303)
-        else:
-            dpr("Saving changes...")
-            newSource = request.form['source']
-            dpr("newSource=%r", newSource)
-            saveArticleSource(siteName, pathName, newSource)
-            
-            # update git repository
-            history.commitChanges(siteName, pathName)
-                
-            return redirect("/{siteName}/w/{pathName}".format(
-                    siteName = siteName,
-                    pathName = pathName,
-                 ), 303)
-        
-            
-    #//if
-    title = pathName
-
-    h = tem.render(
-        title = title,
-        siteName = siteName,
-        pathName = pathName,
-        nav2 = locationSitePath(siteName, pathName),
-        source = source,
-    )
-    prt("response length %d", len(h))
-    return h
 
 #---------------------------------------------------------------------
 
@@ -248,13 +173,6 @@ def saveArticleSource(siteName, pathName, source):
     articlePan = getArticlePan(siteName, pathName)
     butil.writeFile(articlePan, source)
 
-def getArticleSource(siteName, pathName):
-    articlePan = getArticlePan(siteName, pathName)
-    if butil.fileExists(articlePan):
-        src = butil.readFile(articlePan)
-        return src
-    else:
-        return ""
 
 def getArticleBody(siteName, pathName):
     """ given an article name, return the body of the article.

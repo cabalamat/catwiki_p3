@@ -14,6 +14,7 @@ import config
 
 # pages:
 import wiki
+import edit
 import sites
 import history
 

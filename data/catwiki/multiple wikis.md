@@ -13,4 +13,4 @@ To create a new wiki, just make a directory for it under `~/siteboxdata/sites/`.
 
 ## View all sites
 
-The URL <http://127.0.0.1:7331/_allSites> lists all the wikis in a CatWiki installation.
+The URL [/_allSites](/_allSites) lists all the wikis in a CatWiki installation.

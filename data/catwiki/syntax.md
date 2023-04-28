@@ -18,16 +18,18 @@ Text with `tt` some computer `code` in it.
 
 Python source code:
 
-```python
-def convertQuickLinks(s):
-    """ Converts [[xxx]] -> [xxx](xxx)
-    @param s [str] containing markdown source
-    @return [str]
+```python 
+def getArticleFilesWithoutExt(d):
     """
-    QUICKLINK_RE = r"\[\[([A-Za-z0-9_ ]+)\]\]"
-    REPLACE_WITH = r"[\1](\1)"
-    r = re.sub(QUICKLINK_RE, REPLACE_WITH, s)
-    return r
+    @param d::str = a full path to a directory
+    @return::[str] where each string is an article in the directory without
+        the ".md" extension
+    """
+    fns, _ = butil.getFilesDirs(d)
+    arts = sorted([fn[:-3]
+                   for fn in fns
+                   if fn[-3:]==".md" and not fn[:1]=="~"])
+    return arts
 ```
 
 ## Tables

@@ -3,6 +3,9 @@
 import os.path
 import collections
 import html
+import datetime
+import inspect
+import sys
 
 import config
 
@@ -29,15 +32,15 @@ jinjaEnv.loader = jinja2.FileSystemLoader(templateDir)
 
 #---------------------------------------------------------------------
 # login manager
-
-def helpPage():
+'''
+def xxhelpPage():
     p = request.path[1:]
     r = p.split('/')[0]
     if r=="": r = "main"
     return r
-jinjaEnv.globals['helpPage'] = helpPage
+#jinjaEnv.globals['helpPage'] = helpPage
 
-def highlightPageIfCurrent(testUrl):
+def xxhighlightPageIfCurrent(testUrl):
     """ If the current page starts with (testUrl), highlight it
     by returning the code " class='active'".
     Otherwise return ""
@@ -46,8 +49,8 @@ def highlightPageIfCurrent(testUrl):
     if p.startswith(testUrl): return " class='active'"
     return ""
 
-jinjaEnv.globals['hpic'] = highlightPageIfCurrent
-
+#jinjaEnv.globals['hpic'] = highlightPageIfCurrent
+'''
 #---------------------------------------------------------------------
 # utility functions
 
@@ -70,6 +73,29 @@ def minToHMS(m):
 def htmlEscape(s):
     return html.escape(s)
 htmlEsc = htmlEscape
+
+#---------------------------------------------------------------------
+# debugging
+
+def prt(formatStr="", *args):
+    """ For debugging -- print a message, prepended with timestamp, function,
+    line number.
+    Uses old-style '%' format strings.
+    @param formatStr::str
+    @param args::[]
+    """
+    now = datetime.datetime.now()
+    nowStr = now.strftime("%H:%M:%S.%f")
+    caller = inspect.stack()[1]
+    fileLine = caller[2]
+    functionName = caller[3]
+
+    if len(args)>0:
+        s = formatStr % args
+    else:
+        s = formatStr
+    t = "%s %s():%d: " % (nowStr, functionName, fileLine)
+    sys.stderr.write(t + s + "\n")
 
 #---------------------------------------------------------------------
 
