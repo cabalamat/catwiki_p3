@@ -31,27 +31,6 @@ jinjaEnv.loader = jinja2.FileSystemLoader(templateDir)
 
 
 #---------------------------------------------------------------------
-# login manager
-'''
-def xxhelpPage():
-    p = request.path[1:]
-    r = p.split('/')[0]
-    if r=="": r = "main"
-    return r
-#jinjaEnv.globals['helpPage'] = helpPage
-
-def xxhighlightPageIfCurrent(testUrl):
-    """ If the current page starts with (testUrl), highlight it
-    by returning the code " class='active'".
-    Otherwise return ""
-    """
-    p = request.path.lstrip("/")
-    if p.startswith(testUrl): return " class='active'"
-    return ""
-
-#jinjaEnv.globals['hpic'] = highlightPageIfCurrent
-'''
-#---------------------------------------------------------------------
 # utility functions
 
 def form(s, *args, **kwargs):
