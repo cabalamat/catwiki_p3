@@ -12,7 +12,7 @@ Things to do to catwiki_p3.
 
 *these are a bit more complex*
 
-* Add a standalone versioning system, replacing the current system (which depends on git).
+* Add a [[standalone versioning system]], replacing the current system (which depends on git).
 * Change the top navigation bar from bootstrap to a home-grown one.
 
 ## Major changes

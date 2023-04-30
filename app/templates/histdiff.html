@@ -1,0 +1,84 @@
+{# histdiff.html
+   =============
+
+Show a diff between two versions of an article
+#}
+{% extends "wiki_page.html" %}
+
+{% block extrahead %}
+{# CSS for Python's difflib.HtmlDiff #}
+<style>
+table.diff {
+  border: 1px 1px;
+}
+
+th.diff_header {
+  padding: 2px 4px;
+}
+td.diff_header {
+  padding: 0px 4px;
+  //margin: 0px;
+  //border: 0px;
+  //padding-left: 3px;
+  background: #ddeeff;
+  color: #048;
+  text-align: right;
+  //font-weight: bold;
+}
+
+td.diff_next, td.diff_next a {
+  visibility: hidden;
+  //display: none;
+  //color: #f00;
+}
+
+.diff_sub { background: #fcc;}
+
+.diff_add {background: #cfc;}
+
+.diff_chg {background: #ff7;}
+</style>
+{% endblock extrahead %}
+
+
+{% block wikiCommands %}
+<p class="command-header">Commands</p>
+
+<p><a class='btn btn-info'
+href="/{{siteName}}/w/{{pathName}}">
+<i class='fa fa-eye'></i> View page</a></p>
+
+<p><a class='btn btn-success'
+href="/{{siteName}}/wikiedit/{{pathName}}">
+<i class='fa fa-edit'></i> Edit page</a></p>
+
+<p><a class='btn btn-default'
+href="/{{siteName}}/history/{{pathName}}">
+<i class='fa fa-history'></i> History</a></p>
+{% endblock wikiCommands %}
+
+{% block wikiContents %}
+<h2><i class='fa fa-copy'></i> Compare versions of: {{pathName}}</h2>
+
+<table class='report_table'>
+<tr>
+  <th><i class='fa fa-file-o'></i> Older article</th>
+  <td><tt>{{oldhfn}}</tt></td></tr>
+<tr>
+  <th><i class='fa fa-file-o'></i> Newer article</th>
+  <td><tt>{{newhfn}}</tt></td></tr>
+</table>
+
+{{diffTable}}
+
+<h3><i class='fa fa-key'></i> Key</h3>
+
+<table class='report_table'>
+<tr><td><span class="diff_add">added content</span></td></tr>
+<tr><td><span class="diff_sub">deleted content</span></td></tr>
+<tr><td><span class="diff_chg">changed content</span></td></tr>
+</table>
+
+
+{% endblock wikiContents %}
+{# end #}

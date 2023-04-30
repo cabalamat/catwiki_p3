@@ -75,8 +75,6 @@ def getMimeType(pathName):
 
 #---------------------------------------------------------------------
 
-#---------------------------------------------------------------------
-
 def pathJoin(sp, ix):
     return "/".join(sp[0:ix+1])
 
@@ -114,18 +112,12 @@ def getArticleDirname(pathName):
     upOne = "/".join(sp[:-1]) + "/"
     return upOne
 
-def deleteArticle(siteName, pathName):
-    """ delete an article """
-    pan = getDirPan(siteName, pathName)
-    if pan:
-        os.remove(pan + ".md")
 
 #---------------------------------------------------------------------
 
 markdownProcessor = markdown.Markdown(extensions=['extra',
     'sane_lists',
     'toc',
-    #'codehilite',
     CodeHiliteExtension(guess_lang=False),
     ])
 
@@ -166,12 +158,6 @@ def getDirPan(siteName, pathName):
             return butil.join(stub, siteName, pathName)
     #//for
     return ""
-
-def saveArticleSource(siteName, pathName, source):
-    #pr("saving article %s:[%s] -----BODY:-----\n%s\n-----END-----",
-    #    siteName, pathName, source)
-    articlePan = getArticlePan(siteName, pathName)
-    butil.writeFile(articlePan, source)
 
 
 def getArticleBody(siteName, pathName):

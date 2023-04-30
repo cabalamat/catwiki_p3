@@ -1,10 +1,10 @@
 # history.py
 
 import os.path, datetime, time
+import difflib
+
 
 from flask import request, redirect, Response
-
-import git
 
 from ulib import butil
 from ulib.butil import form, dpr, dpvars
@@ -13,36 +13,7 @@ import allpages
 from allpages import *
 
 import wiki
-
-#---------------------------------------------------------------------
-
-def getRepo(siteName: str, pathName: str) -> git.Repo:
-    """
-    siteName = the name of the wiki within catWiki
-    pathName = the path to the page within the wiki
-    @return = a git repository
-    """
-    dp = wiki.getDirPan(siteName, "")
-    dpvars("dp")
-    repo = git.Repo(dp)
-    dpvars("dp repo")
-    return repo
-
-def commitChanges(siteName: str, pathName: str):
-    """ Commit changes to a repository, when (pathname) has
-    changed.
-    """
-    return
-    repo = getRepo(siteName, pathName)
-    fileName = pathName + ".md"
-    dpvars("siteName, pathName fileName")
-    repo.index.add([fileName])
-    try:
-        repo.git.commit(all=True, message="committed "+pathName)
-    except:
-        pass
-    
-
+import edit
 
 #---------------------------------------------------------------------
 
@@ -51,66 +22,188 @@ def history(siteName, pathName):
     dpr("siteName=%r pathName=%r", siteName, pathName)
     tem = jinjaEnv.get_template("history.html")
     
-    repo = getRepo(siteName, pathName)
-    #lsf = repo.git.log(form("--follow {}.md", pathName))
-    commits = list(repo.iter_commits(paths=pathName+".md"))
-    dpvars("commits")
-    
     h = tem.render(
         title = pathName,
         siteName = siteName,
         pathName = pathName,
         nav2 = wiki.locationSitePath(siteName, pathName),
-        table = getCommitsTable(pathName, commits)
+        table = getHistoryTable(siteName,pathName)
     )
     return h
 
-def getCommitsTable(pathName, commits):
-    """
-    @param commits::[git.Commit]
-    @return::str containing html
-    """
+class TRow:
+    ix: int # row number, starts from 1
+    isNewest: bool # is this the newest file?
+    isOldest: bool # is this the oldest file?
+    fn: str # filename of .HIST file
+    ts2: str #fro timestamp
+    size: int # size in disk in bytes
+
+
+def getHistoryTable(siteName: str, pathName: str) -> str:
+    articlePan = wiki.getDirPan(siteName, pathName)
+    dirName = wiki.getArticleDirname(articlePan)
+    baseDir, stubIncExt = os.path.split(articlePan)
+    stub = stubIncExt[:-3]
+    dpr("articlePan=%r baseDir=%r stubIncExt=%r stub=%r",
+        articlePan, baseDir, stubIncExt, stub)
+    normalisedName = wiki.normArticleName(stub)
+    dpr("normalisedName=%r", normalisedName)
+    histDir = butil.join(baseDir, ".HIST")
+
+    filenames, _ = butil.getFilesDirs(histDir)
+    fns = sorted(fn for fn in filenames
+                 if fn.startswith(normalisedName)
+                    and fn.endswith(".md")
+    )[::-1]
+
+
     h = """<table class='report_table'>
 <tr> 
-    <th>Date</th>
-    <th>Author</th>
-    <th>Message</th>
+    <th>Compare versions</th>
+    <th>Timestamp</th>
     <th>Size</th>
-    <th>Hex SHA</th>
+    <th>Delta</th>
 </tr>    
 """
-    for co in commits:
-        path = pathName+".md"
-        
-        fileData = (co.tree / path).data_stream.read()
-        coTree = co.tree
-        #dpvars("fileData coTree")
-        
+
+    #>>>> make data structure for table
+    rows = []
+    ix = 0
+    for fn in fns:
+        row = TRow()
+        row.ix = ix
+        row.isNewest = (ix<=0)
+        row.isOldest = (ix>=len(fns)-1)
+        row.fn = fn
+        normName, ts, ext = fn.split(".")
+        ts2 = "%s-%s-%s %s:%s:%s" % (ts[:4], ts[4:6], ts[6:8],
+            ts[9:11], ts[11:13], ts[13:15])
+        row.ts2 = ts2
+        row.size = os.stat(butil.join(histDir, fn)).st_size
+        rows.append(row)
+        ix += 1
+    #//for fn
+
+
+    for row in rows:
+        delta = ""
+        if not row.isOldest:
+            deltaI = row.size - rows[row.ix+1].size
+            if deltaI>0:
+                delta = "<b style='color:#090'>+%s</b>" % (deltaI,)
+            elif deltaI<0:
+                delta = "<b style='color:#900'>%s</b>" % (deltaI,)
+            else:
+                delta = "%s" % (deltaI,)
+
         
         h += form("""<tr> 
-    <td><tt>{date}</tt></td>
-    <td>{author}</td>
-    <td>{message}</td>
-    <td>{size}</td>
-    <td><tt>{hexsha}</tt></td>
+    <td>{curPrev}</td>
+    <td><tt>{timestamp}</tt></td>
+    <td style='text-align:right'>{size}</td>
+    <td style='text-align:right'>{delta}</td>
 </tr>""",
-            date=niceTime(co.authored_date),
-            author=co.author.name,
-            message=htmlEsc(co.message),
-            size=len(fileData),
-            hexsha=co.hexsha,
-        )    
-    #//for co
+            curPrev = getCurPrev(siteName, pathName, row, rows),
+            timestamp=htmlEsc(row.ts2),
+            size=row.size,
+            delta=delta,
+        )
+    #//for fn
+
+
     h += "</table>\n"
     return h
-    
-def niceTime(t):
-    """ Converts a time in seconds since epoch to a nice string """
-    nt = time.strftime("%Y-%b-%d %H:%M",
-        time.gmtime(t))
-    return htmlEsc(nt)
+
+def getCurPrev(siteName: str, pathName: str,
+               row: TRow, rows: list[TRow]) -> str:
+    cur = "cur"
+    if not row.isNewest:
+        cur = form("<a href='/{siteName}/histdiff/{pathName}"
+            "?old={oldhfn}"
+            "&new={newhfn}'>cur</a>",
+            siteName = siteName,
+            pathName = pathName,
+            oldhfn = row.fn,
+            newhfn = rows[0].fn)
+
+    prev = "prev"
+    if not row.isOldest:
+        prev = form("<a href='/{siteName}/histdiff/{pathName}"
+            "?old={oldhfn}"
+            "&new={newhfn}'>prev</a>",
+            siteName = siteName,
+            pathName = pathName,
+            oldhfn = rows[row.ix+1].fn,
+            newhfn = row.fn)
+
+    h = form("({cur} | {prev})"
+             " <input type=radio name=difffrom value='{fn}'>"
+             " <input type=radio name=diffto value='{fn}'>",
+             cur = cur,
+             prev = prev,
+             fn = htmlEsc(row.fn))
+    return h
+
 
 #---------------------------------------------------------------------
+
+@app.route("/<siteName>/histdiff/<path:pathName>")
+def histdiff(siteName, pathName):
+    tem = jinjaEnv.get_template("histdiff.html")
+    oldhfn = request.args.get("old")
+    newhfn = request.args.get("new")
+
+    #>>>>> load old/new files (as lists of strings)
+    oldData = (edit.readHist(siteName, pathName, oldhfn)
+        .rstrip()
+        .splitlines())
+    newData = (edit.readHist(siteName, pathName, newhfn)
+        .rstrip()
+        .splitlines())
+
+    #>>>>> create diff table
+    differ = difflib.HtmlDiff(wrapcolumn=70)
+    diffTableH = differ.make_table(
+        fromlines = oldData,
+        tolines = newData,
+        fromdesc = htmlEsc(oldhfn),
+        todesc = htmlEsc(newhfn),
+        context = True,
+        numlines = 5)
+
+    h = tem.render(
+        title = pathName,
+        siteName = siteName,
+        pathName = pathName,
+        nav2 = wiki.locationSitePath(siteName, pathName),
+        oldhfn = htmlEsc(oldhfn),
+        newhfn = htmlEsc(newhfn),
+        diffTable = diffTableH,
+    )
+    return h
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #end
