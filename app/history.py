@@ -21,6 +21,22 @@ import edit
 def history(siteName, pathName):
     dpr("siteName=%r pathName=%r", siteName, pathName)
     tem = jinjaEnv.get_template("history.html")
+
+    diffFrom = request.args.get("diffFrom")
+    diffTo = request.args.get("diffTo")
+    dpr("diffFrom=%r diffTo=%r", diffFrom, diffTo)
+    if diffFrom and diffTo and diffFrom != diffTo:
+        # redirect to histdiff page
+        if diffFrom > diffTo:
+            diffFrom, diffTo = diffTo, diffFrom
+        url = form("/{siteName}/histdiff/{pathName}"
+            "?old={oldhfn}"
+            "&new={newhfn}",
+            siteName = siteName,
+            pathName = pathName,
+            oldhfn = diffFrom,
+            newhfn = diffTo)
+        return redirect(url)
     
     h = tem.render(
         title = pathName,
@@ -41,21 +57,21 @@ class TRow:
 
 
 def getHistoryTable(siteName: str, pathName: str) -> str:
-    articlePan = wiki.getDirPan(siteName, pathName)
-    dirName = wiki.getArticleDirname(articlePan)
-    baseDir, stubIncExt = os.path.split(articlePan)
-    stub = stubIncExt[:-3]
-    dpr("articlePan=%r baseDir=%r stubIncExt=%r stub=%r",
-        articlePan, baseDir, stubIncExt, stub)
+    dirName = wiki.getDirPan(siteName, pathName)
+    baseDir, stub = os.path.split(dirName)
+    dpr("baseDir=%r stub=%r",
+        baseDir, stub)
     normalisedName = wiki.normArticleName(stub)
     dpr("normalisedName=%r", normalisedName)
     histDir = butil.join(baseDir, ".HIST")
 
     filenames, _ = butil.getFilesDirs(histDir)
+    dpr("filenames=%r", filenames)
     fns = sorted(fn for fn in filenames
-                 if fn.startswith(normalisedName)
+                 if fn.startswith(normalisedName + ".")
                     and fn.endswith(".md")
     )[::-1]
+    dpr("fns=%r", fns)
 
 
     h = """<table class='report_table'>
@@ -138,8 +154,8 @@ def getCurPrev(siteName: str, pathName: str,
             newhfn = row.fn)
 
     h = form("({cur} | {prev})"
-             " <input type=radio name=difffrom value='{fn}'>"
-             " <input type=radio name=diffto value='{fn}'>",
+             " <input type=radio name=diffFrom value='{fn}'>"
+             " <input type=radio name=diffTo value='{fn}'>",
              cur = cur,
              prev = prev,
              fn = htmlEsc(row.fn))
@@ -185,25 +201,6 @@ def histdiff(siteName, pathName):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#---------------------------------------------------------------------
 
 #end

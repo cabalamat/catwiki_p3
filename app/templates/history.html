@@ -24,6 +24,22 @@ href="/{{siteName}}/history/{{pathName}}">
 {% block wikiContents %}
 <h2><i class='fa fa-history'></i> History of: {{pathName}}</h2>
 
+<p>These are all the versions of the article {{pathName}},
+most recent at the top.</p>
+
+<form method=GET>
+<p>
+<button class='btn btn-default'><i class='fa fa-copy'></i>
+Compare selected versions</button>
+</p>
+
 {{table}}
+</form>
+
+<p><b>Size</b> is the size of the file on disk in bytes.
+<b>Delta</b> is the increase in size of a verion over its predecessor.</p>
+
+<p>To compare two versions of the same article, select the versions
+you want in the <b>Compare versions</b> column and press the "Compare selected versions" button at the top.</p>
 {% endblock wikiContents %}
 {# end #}

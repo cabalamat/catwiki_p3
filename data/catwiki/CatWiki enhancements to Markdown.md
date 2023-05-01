@@ -15,7 +15,7 @@ Articles names in MediaWiki-style links can use different capitalisation and wil
 
 > There is a [[FAQ]] or [[faq]].
 
-Both links go to the same article.
+Both links go to the same article, because catWiki normalises the article name (to `faq` in this case).
 
 
 ## See also
