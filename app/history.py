@@ -64,6 +64,9 @@ def getHistoryTable(siteName: str, pathName: str) -> str:
     normalisedName = wiki.normArticleName(stub)
     dpr("normalisedName=%r", normalisedName)
     histDir = butil.join(baseDir, ".HIST")
+    if not butil.isDir(histDir):
+        h = "<p>(<i>No .HIST/ directory, so no versions info for this article</i>)</p>\n"
+        return h
 
     filenames, _ = butil.getFilesDirs(histDir)
     dpr("filenames=%r", filenames)
