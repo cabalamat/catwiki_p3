@@ -58,7 +58,8 @@ def wikiedit(siteName, pathName):
         title = title,
         siteName = siteName,
         pathName = pathName,
-        nav2 = wiki.locationSitePath(siteName, pathName),
+        nav2 = wiki.locationSitePath(siteName, pathName,
+            "<i class='fa fa-edit'></i> edit"),
         source = source,
     )
     prt("response length %d", len(h))

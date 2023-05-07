@@ -42,7 +42,8 @@ def history(siteName, pathName):
         title = pathName,
         siteName = siteName,
         pathName = pathName,
-        nav2 = wiki.locationSitePath(siteName, pathName),
+        nav2 = wiki.locationSitePath(siteName, pathName,
+            "<i class='fa fa-history'></i> history"),
         table = getHistoryTable(siteName,pathName)
     )
     return h
@@ -195,7 +196,8 @@ def histdiff(siteName, pathName):
         title = pathName,
         siteName = siteName,
         pathName = pathName,
-        nav2 = wiki.locationSitePath(siteName, pathName),
+        nav2 = wiki.locationSitePath(siteName, pathName,
+            "<i class='fa fa-copy'></i> compare versions"),
         oldhfn = htmlEsc(oldhfn),
         newhfn = htmlEsc(newhfn),
         diffTable = diffTableH,

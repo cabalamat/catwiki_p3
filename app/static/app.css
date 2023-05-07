@@ -312,6 +312,12 @@ input.gin, textarea.gin {
   background: #606;
 }
 
+.loc-xtra {
+  color: #666;
+  font-weight: bold;
+}
+
+
 /*------------------------------------------------------------------*/
 /* index pages */
 

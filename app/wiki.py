@@ -78,11 +78,13 @@ def getMimeType(pathName):
 def pathJoin(sp, ix):
     return "/".join(sp[0:ix+1])
 
-def locationSitePath(siteName, pathName):
-    """ return html containing links for a wiki path
-    @param siteName::str
-    @param pathName::str
-    @return::str, containing HTML
+def locationSitePath(siteName: str, pathName: str, xtra: str="") -> str:
+    """ return html containing links for a wiki path. This goes at
+    the to pof the page and is used for navigation.
+    @param siteName = which wiki site
+    @param pathName = the path (in the url) to the page
+    @param xtra = extra text going after the path
+    @return a str containing HTML
     """
 
     useForDir = "<i class='fa fa-folder-open'></i>"
@@ -103,6 +105,8 @@ def locationSitePath(siteName, pathName):
                 %(siteName, pathJoin(sp,ix), useForDir))
         h += item
     #//for
+    if xtra:
+        h += " <span class='loc-xtra'>" + xtra + "</span>"
     h += "</span>"
     return h
 
