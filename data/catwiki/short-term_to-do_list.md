@@ -1,12 +1,12 @@
 # Short-term to-do list
 
-Things to do to catwiki_p3.
+Things to do to for catwiki_p3.
 
 ## Minor changes
 
 *these should be simple and easy to do*
 
-* On the top bar, add a "<i class='fa fa-home'></i></span> Home" button that takes you to the current directory's home page. --DONE
+* On the top bar, add a "<i class='fa fa-home'></i></span> Home" button that takes you to the current directory's home page. Need to get this working for all pages, including `/history/`, `/histdiff/`, `/info`, etc.
 
 ## Larger changes
 

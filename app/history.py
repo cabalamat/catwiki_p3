@@ -2,12 +2,15 @@
 
 import os.path, datetime, time
 import difflib
+from typing import List
+from enum import Enum
 
 
 from flask import request, redirect, Response
 
 from ulib import butil
-from ulib.butil import form, dpr, dpvars
+from ulib.butil import form, pr, prn, dpr, dpvars
+import diffhelper
 
 import allpages
 from allpages import *
@@ -201,11 +204,96 @@ def histdiff(siteName, pathName):
         oldhfn = htmlEsc(oldhfn),
         newhfn = htmlEsc(newhfn),
         diffTable = diffTableH,
+        extraTable = makeExtraTable(oldData, newData),
+        ghTable = makeGHTable(oldData, newData),
     )
     return h
 
 
 
+
+def makeExtraTable(oldData: List[str], newData: List[str]) -> str:
+    """ return html for diff """
+    h = "<pre>\n"
+    res = difflib.Differ().compare(oldData, newData)
+    res = difflib.unified_diff(oldData, newData, "old", "new")
+
+
+    for line in res:
+        prn("Line: %s", line)
+        h += form("{line}\n",
+            line = htmlEsc(line.rstrip()))
+
+    #//for
+    h += "</pre>\n"
+    return h
+
+def makeGHTable(oldData: List[str], newData: List[str]) -> str:
+    di = diffhelper.makeDiffLines(oldData, newData, "old", "new")
+
+    h = """<table class='gh_diff_table'>
+    <tr>
+        <th>&nbsp;Old</th>
+        <th>&nbsp;New</th>
+        <th>&nbsp;Type</th>
+        <th>&nbsp;Line</th>
+    </tr>
+    """
+    for dit in di.diffItems:
+        lt = dit.lineType
+
+        if lt=='GROUP_INTRO':
+            h += form("""<tr class='diff_group_info'>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{ln}</td>
+            </tr>""",
+                ln = htmlEsc(dit.lineStr)
+            )
+        elif lt=='UNCHANGED_LINE':
+            h += form("""<tr class='diff_unchanged_line'>
+                <td class='line_num'>{oldLn}</td>
+                <td class='line_num'>{newLn}</td>
+                <td></td>
+                <td>{ln}</td>
+            </tr>""",
+                oldLn = dit.oldLineNum,
+                newLn = dit.newLineNum,
+                ln = htmlEsc(dit.strippedLineStr)
+            )
+
+        elif lt=='ADD_LINE':
+            h += form("""<tr class='diff_add_line'>
+                <td></td>
+                <td class='line_num'>{newLn}</td>
+                <td class='icon_add_line'><i class='fa fa-plus-square-o'></i></td>
+                <td>{ln}</td>
+            </tr>""",
+                newLn = dit.newLineNum,
+                ln = htmlEsc(dit.strippedLineStr)
+            )
+
+        elif lt=='REMOVE_LINE':
+            h += form("""<tr class='diff_remove_line'>
+                <td class='line_num'>{oldLn}</td>
+                <td></td>
+                <td class='icon_remove_line'><i class='fa fa-minus-square-o'></i></td>
+                <td>{ln}</td>
+            </tr>""",
+                oldLn = dit.oldLineNum,
+                ln = htmlEsc(dit.strippedLineStr)
+            )
+
+
+
+    #//for diffItem
+    h += "</table>\n"
+    return h
+
+
 #---------------------------------------------------------------------
+
+
 
 #end

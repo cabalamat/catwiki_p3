@@ -540,6 +540,62 @@ tt.mono_tool {
 }
 
 /*------------------------------------------------------------------*/
+/* history and diff pages */
+
+.hist_article_name {
+    color: #009;
+    background: #def;
+}
+
+/* github-like diff table */
+table.gh_diff_table {
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+    font-family: "Ubuntu Mono", monospace;
+}
+
+table.gh_diff_table th {
+    font-weight: bold;
+    border: 0px 5px;
+}
+
+.diff_group_info {
+    color: #036;
+    background: #cdf;
+    font-weight: bold;
+}
+table.gh_diff_table tr.diff_unchanged_line {
+    color: #000;
+    background: #e8f8ff;
+}
+table.gh_diff_table tr.diff_add_line {
+    color: #060;
+    background: #efe;
+}
+table.gh_diff_table tr.diff_remove_line {
+    color: #600;
+    background: #fee;
+}
+
+table.gh_diff_table td.line_num {
+    vertical-align: top;
+    text-align: right;
+}
+
+table.gh_diff_table td.icon_add_line {
+    padding: 0px 10px;
+    vertical-align: top;
+    color: #060;
+}
+table.gh_diff_table td.icon_remove_line {
+    padding: 0px 10px;
+    vertical-align: top;
+}
+
+
+
+/*------------------------------------------------------------------*/
 /* debugging */
 
 .debug {
