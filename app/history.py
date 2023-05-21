@@ -233,10 +233,10 @@ def makeGHTable(oldData: List[str], newData: List[str]) -> str:
 
     h = """<table class='gh_diff_table'>
     <tr>
-        <th>&nbsp;Old</th>
+        <th>Old</th>
         <th>&nbsp;New</th>
-        <th>&nbsp;Type</th>
-        <th>&nbsp;Line</th>
+        <th>&nbsp;Typ&nbsp;</th>
+        <th>Line</th>
     </tr>
     """
     for dit in di.diffItems:

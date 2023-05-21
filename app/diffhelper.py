@@ -103,23 +103,27 @@ class DiffItem:
             self.oldLineNum, self.newLineNum = readGroupIntro(line)
             return
 
+        ata: int = 1 # amount to add
+        if self.prev().lineType == 'GROUP_INTRO':
+            ata = 0
+
         if state == 'IN_GROUP' and line.startswith("+"):
             self.lineType = 'ADD_LINE'
             self.strippedLineStr = line[1:].rstrip()
             self.oldLineNum = self.prev().oldLineNum
-            self.newLineNum = self.prev().newLineNum + 1
+            self.newLineNum = self.prev().newLineNum + ata
 
         if state == 'IN_GROUP' and line.startswith("-"):
             self.lineType = 'REMOVE_LINE'
             self.strippedLineStr = line[1:].rstrip()
-            self.oldLineNum = self.prev().oldLineNum + 1
+            self.oldLineNum = self.prev().oldLineNum + ata
             self.newLineNum = self.prev().newLineNum
 
         if state == 'IN_GROUP' and line.startswith(" "):
             self.lineType = 'UNCHANGED_LINE'
             self.strippedLineStr = line[1:].rstrip()
-            self.oldLineNum = self.prev().oldLineNum + 1
-            self.newLineNum = self.prev().newLineNum + 1
+            self.oldLineNum = self.prev().oldLineNum + ata
+            self.newLineNum = self.prev().newLineNum + ata
 
     def prev(self) -> 'DiffItem':
         """ return the previous DiffItem """

@@ -555,9 +555,10 @@ table.gh_diff_table {
     font-family: "Ubuntu Mono", monospace;
 }
 
-table.gh_diff_table th {
+table.gh_diff_table th, .diff_table_header {
     font-weight: bold;
     border: 0px 5px;
+    font-family: "Ubuntu Mono", monospace;
 }
 
 .diff_group_info {
@@ -565,15 +566,22 @@ table.gh_diff_table th {
     background: #cdf;
     font-weight: bold;
 }
-table.gh_diff_table tr.diff_unchanged_line {
+
+.diff_group_info,
+.diff_unchanged_line, .diff_add_line, .diff_remove_line {
+    font-family: "Ubuntu Mono", monospace;
+}
+
+
+.diff_unchanged_line {
     color: #000;
     background: #e8f8ff;
 }
-table.gh_diff_table tr.diff_add_line {
+.diff_add_line {
     color: #060;
     background: #efe;
 }
-table.gh_diff_table tr.diff_remove_line {
+.diff_remove_line {
     color: #600;
     background: #fee;
 }
