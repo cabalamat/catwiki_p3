@@ -9,7 +9,7 @@ from enum import Enum
 from flask import request, redirect, Response
 
 from ulib import butil
-from ulib.butil import form, pr, prn, dpr, dpvars
+from ulib.butil import form, pr, prn, dpr, dpvars, printargs
 import diffhelper
 
 import allpages
@@ -186,47 +186,20 @@ def histdiff(siteName, pathName):
         .splitlines())
 
     #>>>>> create diff table
-    differ = difflib.HtmlDiff(wrapcolumn=70)
-    diffTableH = differ.make_table(
-        fromlines = oldData,
-        tolines = newData,
-        fromdesc = htmlEsc(oldhfn),
-        todesc = htmlEsc(newhfn),
-        context = True,
-        numlines = 5)
 
     h = tem.render(
         title = pathName,
         siteName = siteName,
         pathName = pathName,
+        homeUrl = makeHomeUrl(siteName, pathName),
         nav2 = wiki.locationSitePath(siteName, pathName,
             "<i class='fa fa-copy'></i> compare versions"),
         oldhfn = htmlEsc(oldhfn),
         newhfn = htmlEsc(newhfn),
-        diffTable = diffTableH,
-        extraTable = makeExtraTable(oldData, newData),
         ghTable = makeGHTable(oldData, newData),
     )
     return h
 
-
-
-
-def makeExtraTable(oldData: List[str], newData: List[str]) -> str:
-    """ return html for diff """
-    h = "<pre>\n"
-    res = difflib.Differ().compare(oldData, newData)
-    res = difflib.unified_diff(oldData, newData, "old", "new")
-
-
-    for line in res:
-        prn("Line: %s", line)
-        h += form("{line}\n",
-            line = htmlEsc(line.rstrip()))
-
-    #//for
-    h += "</pre>\n"
-    return h
 
 def makeGHTable(oldData: List[str], newData: List[str]) -> str:
     di = diffhelper.makeDiffLines(oldData, newData, "old", "new")
@@ -294,6 +267,17 @@ def makeGHTable(oldData: List[str], newData: List[str]) -> str:
 
 #---------------------------------------------------------------------
 
+@printargs
+def makeHomeUrl(siteName: str, pathName: str) -> str:
+    """ calculate the URL of the home page of the current directory
+    @param siteName = which wiki site
+    @param pathName = the path (in the url) to the page
+    @return a URL for this site
+    """
+    return ""
+
+
+#---------------------------------------------------------------------
 
 
 #end

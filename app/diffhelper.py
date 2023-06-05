@@ -42,22 +42,15 @@ class DiffInfo:
         newDesc = a description of the new file, e.g. a filename
         """
         self.diffItems = [] # result
-        dpvars("self.diffItems")
         dr = difflib.unified_diff(oldData, newData, oldDesc, newDesc)
 
         ldr = list(dr)
-        dpr("ldr=%r::%s", ldr, type(ldr))
-        for s in ldr:
-            prn("[%s]", s)
 
         state = 'AT_START'
-        dpvars("state")
         for line in ldr:
             di = DiffItem(self)
             di.readLine(state, line)
             state = di.state
-            dpvars("di")
-            dpvars("state")
             self.diffItems.append(di)
         #//for
 
@@ -84,7 +77,6 @@ class DiffItem:
         return r
 
     def readLine(self, state: DiffLineState, line: str) -> DiffLineState:
-        dpvars("state line")
         self.lineStr = line
         self.state = state
 
@@ -157,7 +149,7 @@ def readGroupIntro(line: str) -> Tuple[int, int]:
 
 def getPositiveInts(s: str) -> List[int]:
     """ find positive integers in a string.
-    Every chars not in [0-9] is converted to a space.
+    Every char not in [0-9] is converted to a space.
     Then the integers are found and returned.
     E.g. getPositiveInts(" 3xxx7-8+91zzz") => [3,7,8,91]
     """
