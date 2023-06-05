@@ -45,6 +45,7 @@ def history(siteName, pathName):
         title = pathName,
         siteName = siteName,
         pathName = pathName,
+        homeUrl = makeHomeUrl(siteName, pathName),
         nav2 = wiki.locationSitePath(siteName, pathName,
             "<i class='fa fa-history'></i> history"),
         table = getHistoryTable(siteName,pathName)
@@ -63,22 +64,21 @@ class TRow:
 def getHistoryTable(siteName: str, pathName: str) -> str:
     dirName = wiki.getDirPan(siteName, pathName)
     baseDir, stub = os.path.split(dirName)
-    dpr("baseDir=%r stub=%r",
-        baseDir, stub)
+    #dpr("baseDir=%r stub=%r", baseDir, stub)
     normalisedName = wiki.normArticleName(stub)
-    dpr("normalisedName=%r", normalisedName)
+    #dpr("normalisedName=%r", normalisedName)
     histDir = butil.join(baseDir, ".HIST")
     if not butil.isDir(histDir):
         h = "<p>(<i>No .HIST/ directory, so no versions info for this article</i>)</p>\n"
         return h
 
     filenames, _ = butil.getFilesDirs(histDir)
-    dpr("filenames=%r", filenames)
+    #dpr("filenames=%r", filenames)
     fns = sorted(fn for fn in filenames
                  if fn.startswith(normalisedName + ".")
                     and fn.endswith(".md")
     )[::-1]
-    dpr("fns=%r", fns)
+    #dpr("fns=%r", fns)
 
 
     h = """<table class='report_table'>
@@ -274,7 +274,24 @@ def makeHomeUrl(siteName: str, pathName: str) -> str:
     @param pathName = the path (in the url) to the page
     @return a URL for this site
     """
-    return ""
+    if "/" in pathName and pathName[-1]!="/":
+        pns = pathName.split("/")
+
+        # remove last part:
+        pns2 = pns[:-1]
+
+        #join them up agaim
+        pnj = "/".join(pns2)
+
+        pathHome = pnj + "/home"
+    elif "/" in pathName and pathName[-1]=="/":
+        pathHome = pathName + "home"
+
+    else:
+        pathHome = "home"
+
+    r = f"/{siteName}/w/{pathHome}"
+    return r
 
 
 #---------------------------------------------------------------------
