@@ -5,6 +5,7 @@ import difflib
 from typing import List, Literal, Tuple
 from enum import Enum
 
+from ulib import butil
 from ulib.butil import pr, prn, form, dpr, dpvars, printargs
 
 #---------------------------------------------------------------------
@@ -141,12 +142,42 @@ def readGroupIntro(line: str) -> Tuple[int, int]:
     Return those numbers.
     """
     _, afterMinus = line.split("-", 1)
-    oldStr, _ = afterMinus.split(",", 1)
-    oldNum = int(oldStr)
-    _, afterPlus = line.split("+", 1)
-    newStr, _ = afterPlus.split(",", 1)
-    newNum = int(newStr)
+    oldStr, afterPlus = afterMinus.split("+", 1)
+    ii = getPositiveInts(oldStr)
+    if len(ii)>=1:
+        oldNum = ii[0]
+    else:
+        oldNum = 0
+    jj = getPositiveInts(afterPlus)
+    if len(jj)>=1:
+        newNum = jj[0]
+    else:
+        newNum = 0
     return (oldNum, newNum)
+
+def getPositiveInts(s: str) -> List[int]:
+    """ find positive integers in a string.
+    Every chars not in [0-9] is converted to a space.
+    Then the integers are found and returned.
+    E.g. getPositiveInts(" 3xxx7-8+91zzz") => [3,7,8,91]
+    """
+    s2 = ""
+    for ch in s:
+        if ch in "0123456789":
+            s2 += ch
+        else:
+            s2 += " "
+    groups = s2.split()
+    r = []
+    for g in groups:
+        try:
+            i = int(g)
+        except ValueError:
+            continue
+        r.append(i)
+    #//for
+    return r
+
 
 
 

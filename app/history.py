@@ -247,7 +247,7 @@ def makeGHTable(oldData: List[str], newData: List[str]) -> str:
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>{ln}</td>
+                <td style='white-space:pre-wrap'>{ln}</td>
             </tr>""",
                 ln = htmlEsc(dit.lineStr)
             )
@@ -256,7 +256,7 @@ def makeGHTable(oldData: List[str], newData: List[str]) -> str:
                 <td class='line_num'>{oldLn}</td>
                 <td class='line_num'>{newLn}</td>
                 <td></td>
-                <td>{ln}</td>
+                <td style='white-space:pre-wrap'>{ln}</td>
             </tr>""",
                 oldLn = dit.oldLineNum,
                 newLn = dit.newLineNum,
@@ -268,7 +268,7 @@ def makeGHTable(oldData: List[str], newData: List[str]) -> str:
                 <td></td>
                 <td class='line_num'>{newLn}</td>
                 <td class='icon_add_line'><i class='fa fa-plus-square-o'></i></td>
-                <td>{ln}</td>
+                <td style='white-space:pre-wrap'>{ln}</td>
             </tr>""",
                 newLn = dit.newLineNum,
                 ln = htmlEsc(dit.strippedLineStr)
@@ -279,7 +279,7 @@ def makeGHTable(oldData: List[str], newData: List[str]) -> str:
                 <td class='line_num'>{oldLn}</td>
                 <td></td>
                 <td class='icon_remove_line'><i class='fa fa-minus-square-o'></i></td>
-                <td>{ln}</td>
+                <td style='white-space:pre-wrap'>{ln}</td>
             </tr>""",
                 oldLn = dit.oldLineNum,
                 ln = htmlEsc(dit.strippedLineStr)
