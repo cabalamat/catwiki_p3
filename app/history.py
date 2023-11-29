@@ -57,7 +57,8 @@ class TRow:
     isNewest: bool # is this the newest file?
     isOldest: bool # is this the oldest file?
     fn: str # filename of .HIST file
-    ts2: str #fro timestamp
+    ts2: str #for timestamp
+    words: int # number of words
     size: int # size in disk in bytes
 
 
@@ -86,6 +87,7 @@ def getHistoryTable(siteName: str, pathName: str) -> str:
     <th>Compare versions</th>
     <th>Timestamp</th>
     <th>Size</th>
+    <th>Words</th>
     <th>Delta</th>
 </tr>    
 """
@@ -104,6 +106,7 @@ def getHistoryTable(siteName: str, pathName: str) -> str:
             ts[9:11], ts[11:13], ts[13:15])
         row.ts2 = ts2
         row.size = os.stat(butil.join(histDir, fn)).st_size
+        row.words = getWordCount(butil.join(histDir, fn))
         rows.append(row)
         ix += 1
     #//for fn
@@ -125,11 +128,13 @@ def getHistoryTable(siteName: str, pathName: str) -> str:
     <td>{curPrev}</td>
     <td><tt>{timestamp}</tt></td>
     <td style='text-align:right'>{size}</td>
+    <td style='text-align:right'>{numWords}</td>
     <td style='text-align:right'>{delta}</td>
 </tr>""",
             curPrev = getCurPrev(siteName, pathName, row, rows),
             timestamp=htmlEsc(row.ts2),
             size=row.size,
+            numWords=row.words,
             delta=delta,
         )
     #//for fn
@@ -167,6 +172,23 @@ def getCurPrev(siteName: str, pathName: str,
              prev = prev,
              fn = htmlEsc(row.fn))
     return h
+
+def getWordCount(pathName: str) -> int:
+    """ return the number of words in the file given by (pathName) """
+    alpha = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+             "abcdefghijklmnopqrstuvwxyz")
+    src = butil.readFile(pathName)
+    words = src.split()
+
+    # only count words containing letters
+    numWords = 0
+    for w in words:
+        if any(ch in alpha for ch in w):
+            numWords += 1
+
+    return numWords
+
+
 
 
 #---------------------------------------------------------------------
