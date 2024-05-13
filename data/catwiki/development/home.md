@@ -1,4 +1,4 @@
-# Development documentation for SiteBox
+# Development documentation for CatWiki
 
 * [To-do list](todo)
 * [[long term development plan]]
@@ -12,10 +12,10 @@ These are:
 
 ## URLs
 
-* /{site}/w/{path} = view a wiki page or directory
-* /{site}/wikiedit/{path} = view a wiki page or directory
-* /_allSites = list all sites on this SiteBox installation
-* /{site}/info = information about a site
+* `/{site}/w/{path}` = view a wiki page or directory
+* `/{site}/wikiedit/{path}` = view a wiki page or directory
+* `/_allSites` = list all sites on this SiteBox installation
+* `/{site}/info` = information about a site
 
 ## Wiki conventions
 

@@ -1,4 +1,4 @@
-# edit.py = aditing a wiki page
+# edit.py = editing a wiki page
 
 import datetime
 import os, os.path
@@ -93,7 +93,7 @@ def saveArticleSource(siteName, pathName, source):
 #---------------------------------------------------------------------
 
 def ensureHistExists(articlePan: str):
-    """ ensure a .HIST/ direcvtory exists under the direcvtory in
+    """ ensure a .HIST/ directory exists under the directory in
     (pathName)
     """
     prt("articlePan=%r", articlePan)

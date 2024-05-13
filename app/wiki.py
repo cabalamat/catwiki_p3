@@ -80,7 +80,7 @@ def pathJoin(sp, ix):
 
 def locationSitePath(siteName: str, pathName: str, xtra: str="") -> str:
     """ return html containing links for a wiki path. This goes at
-    the to pof the page and is used for navigation.
+    the top of the page and is used for navigation.
     @param siteName = which wiki site
     @param pathName = the path (in the url) to the page
     @param xtra = extra text going after the path
