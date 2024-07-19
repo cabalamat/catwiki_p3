@@ -150,7 +150,7 @@ def saveCopyToHist(articlePan: str):
 
 def getAlteredTimestamp(pan: str) -> str:
     """ (pan) is a full pathname to a file.
-    Returns the timestamp it was last alterted,
+    Returns the timestamp it was last altered,
     in the format "yyyymmdd_HHMMSS"
     """
     statinfo = os.stat(pan)

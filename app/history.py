@@ -188,9 +188,6 @@ def getWordCount(pathName: str) -> int:
 
     return numWords
 
-
-
-
 #---------------------------------------------------------------------
 
 @app.route("/<siteName>/histdiff/<path:pathName>")
