@@ -1,6 +1,6 @@
 # Markdown syntax
 
-*This page describes the version of markdown syntax used by Sitebox. See also [[extensions]].*
+*This page describes the version of markdown syntax used by CatWiki.*
 
 Below is a table of contents. It can be produced using the markup `[TOC]`.
 
@@ -11,6 +11,10 @@ Below is a table of contents. It can be produced using the markup `[TOC]`.
 Inline-style: 
 
     ![alt text](url/goes/here.png "The Title")
+
+You can also use HTML to set a maximum width for the image, like this:
+
+    <img style="max-width:500px" src="filename.png">
 
 ## Source code
 

@@ -160,6 +160,7 @@ def getAlteredTimestamp(pan: str) -> str:
     dpr("lastAccess=%r dts=%r", lastAccess, dts)
     return dts
 
+@printargs
 def readHist(siteName, pathName, histFn) -> str:
     """ read a history file """
     articlePan = wiki.getArticlePan(siteName, pathName)
