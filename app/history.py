@@ -2,7 +2,7 @@
 
 import os.path, datetime, time
 import difflib
-from typing import List
+from typing import List, Tuple, Union
 from enum import Enum
 
 
@@ -48,7 +48,7 @@ def history(siteName, pathName):
         homeUrl = makeHomeUrl(siteName, pathName),
         nav2 = wiki.locationSitePath(siteName, pathName,
             "<i class='fa fa-history'></i> history"),
-        table = getHistoryTable(siteName,pathName)
+        table = getHistoryTable(siteName, pathName)
     )
     return h
 
@@ -58,8 +58,13 @@ class TRow:
     isOldest: bool # is this the oldest file?
     fn: str # filename of .HIST file
     ts2: str #for timestamp
+
     words: int # number of words
+    dWords: str
+
     size: int # size in disk in bytes
+    dSize: str
+
 
 
 def getHistoryTable(siteName: str, pathName: str) -> str:
@@ -87,8 +92,9 @@ def getHistoryTable(siteName: str, pathName: str) -> str:
     <th>Compare versions</th>
     <th>Timestamp</th>
     <th>Size</th>
+    <th>&Delta;Size</th>
     <th>Words</th>
-    <th>Delta</th>
+    <th>&Delta;Words</th>
 </tr>    
 """
 
@@ -111,37 +117,46 @@ def getHistoryTable(siteName: str, pathName: str) -> str:
         ix += 1
     #//for fn
 
+    for ix, row in enumerate(rows):
+        if row.isOldest:
+            row.dSize = ""
+            row.dWords = ""
+        else:
+            row.dSize =  deltaize(row.size - rows[row.ix+1].size)
+            row.dWords = deltaize(row.words- rows[row.ix+1].words)
+    #//for
+
 
     for row in rows:
-        delta = ""
-        if not row.isOldest:
-            deltaI = row.size - rows[row.ix+1].size
-            if deltaI>0:
-                delta = "<b style='color:#090'>+%s</b>" % (deltaI,)
-            elif deltaI<0:
-                delta = "<b style='color:#900'>%s</b>" % (deltaI,)
-            else:
-                delta = "%s" % (deltaI,)
-
-        
         h += form("""<tr> 
     <td>{curPrev}</td>
     <td><tt>{timestamp}</tt></td>
     <td style='text-align:right'>{size}</td>
+    <td style='text-align:right'>{dSize}</td>
     <td style='text-align:right'>{numWords}</td>
-    <td style='text-align:right'>{delta}</td>
+    <td style='text-align:right'>{dWords}</td>
 </tr>""",
             curPrev = getCurPrev(siteName, pathName, row, rows),
             timestamp=htmlEsc(row.ts2),
             size=row.size,
+            dSize=row.dSize,
             numWords=row.words,
-            delta=delta,
+            dWords=row.dWords,
         )
     #//for fn
 
-
     h += "</table>\n"
     return h
+
+def deltaize(n: int) -> str:
+    """ for increasing/decreasing size/words """
+    if n>0:
+        r = "<b style='color:#090'>+%s</b>" % (n,)
+    elif n<0:
+        r = "<b style='color:#900'>%s</b>" % (n,)
+    else:
+        r = "%s" % (n,)
+    return r
 
 def getCurPrev(siteName: str, pathName: str,
                row: TRow, rows: list[TRow]) -> str:
