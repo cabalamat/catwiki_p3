@@ -15,7 +15,6 @@ Above the text entry area is the editing toolbar. It looks like this:
 <i class='fa fa-list-ol'></i> 
 <tt class='mono_tool'>mono</tt> 
 <mark>mark</mark></tt>
-<i class='fa fa-paragraph'></i>1-para
 <span>
 
 You use the editing toolbar by optionally selecting some text and then clicking on the relevant button. This puts Markdown markup around the selected text, to perform the relevant function.
@@ -72,9 +71,9 @@ Tool | Line before | Line after | Notes
 <i class='fa fa-quote-left'></i> | `abc` | `> abc` | blockquotes
 <i class='fa fa-list-ul'></i> | `abc` | `* abc` | bulleted list
 <i class='fa fa-list-ol'></i> | `abc` | `1. abc` | numbered list
-<tt class='mono_tool'>mono</tt> | `abc` | <code>&#96;abc&#96;</code> | monospaced text or code block
+<tt class='mono_tool'>mono</tt> | `abc` | <code>`abc`</code> | monospaced text or code block
 <mark>mark</mark> | `abc` | `<mark>abc</mark>` | highlighted text (as with a marker pen)
-<i class='fa fa-paragraph'></i>1-para | `a\n\nb` | `a b` | makes selection all one paragraph
+<i class='fa fa-paragraph'></i>1-para | `a\n\nb` | `a b` | makes selection one paragraph
 
 
 Text in blockquotes ( <i class='fa fa-quote-left'></i> ) looks like:

@@ -1,12 +1,7 @@
 # Development documentation for CatWiki
 
-See also:
-
 * [To-do list](todo)
 * [[long term development plan]]
-
-[TOC]
-
 
 ## Data directories
 
@@ -22,19 +17,7 @@ These are:
 * `/_allSites` = list all sites on this CatWiki installation
 * `/{site}/info` = information about a site
 
-
 ### URLs for history
-
-* `/{site}/history/{path}` = view a list of versions of a page
-* `/{site}/histdiff/{path}?old={oldfn}&new={newfn}` = view a list of versions of a page
-
-
-Where:
-
-* `{site}` = The name of the wiki
-* `{path}` = the path to the file in the wiki
-* `{oldfn}` = the filename of the old version of the wiki file
-* `{newfn}` = the filename of the new version of the wiki file
 
 
 ## Wiki conventions

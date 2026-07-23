@@ -30,6 +30,21 @@ function addTable() {
     addAround(t, "");
 }
 
+function onePara() {
+    var sel = $('#source').selection(); // selected text
+    //console.log("onePara [" + toString(sel) + "]");
+    var r = oneParaStr(sel);
+    //console.log("r=[" + toString(r) + "]");
+    $('#source').selection('replace', {text: r});
+}
+
+function oneParaStr(s) {
+    /* make a string so it is all one paragraph. All consequtive whitespace
+    is replaced by a single space.
+    */
+    return s.replace(/\s+/g, ' ').trim();
+}
+
 function blockquote() {
     var sel = $('#source').selection(); // selected text
     var lines = sel.split("\n");

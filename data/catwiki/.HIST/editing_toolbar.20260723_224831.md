@@ -72,7 +72,7 @@ Tool | Line before | Line after | Notes
 <i class='fa fa-quote-left'></i> | `abc` | `> abc` | blockquotes
 <i class='fa fa-list-ul'></i> | `abc` | `* abc` | bulleted list
 <i class='fa fa-list-ol'></i> | `abc` | `1. abc` | numbered list
-<tt class='mono_tool'>mono</tt> | `abc` | <code>&#96;abc&#96;</code> | monospaced text or code block
+<tt class='mono_tool'>mono</tt> | ``abc`` | <code>`abc`</code> | monospaced text or code block
 <mark>mark</mark> | `abc` | `<mark>abc</mark>` | highlighted text (as with a marker pen)
 <i class='fa fa-paragraph'></i>1-para | `a\n\nb` | `a b` | makes selection all one paragraph
 
