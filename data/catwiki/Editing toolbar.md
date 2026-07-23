@@ -1,21 +1,24 @@
 # The Editing Toolbar
 
+*(NB: Edit this file with a text editor, not in CatWiki, as it falls over on
+some of the markup. Yeah, yeah, I know, dogfood and all that.)*
+
 Above the text entry area is the editing toolbar. It looks like this:
 
-> <span style='font-size:18px'><i class='fa fa-bold'></i> 
-<i class='fa fa-italic'></i> 
-<i class='fa fa-strikethrough'></i> 
-<i class='fa fa-superscript'></i> 
-<i class='fa fa-subscript'></i> 
-<i class='fa fa-link'></i> 
-<i class='fa fa-image'></i> 
-<i class='fa fa-table'></i> 
-<i class='fa fa-quote-left'></i> 
-<i class='fa fa-list-ul'></i> 
-<i class='fa fa-list-ol'></i> 
-<tt class='mono_tool'>mono</tt> 
-<mark>mark</mark></tt>
-<i class='fa fa-paragraph'></i>1-para
+> <span style='font-size:18px'><i class='fa fa-bold'></i> &nbsp;
+<i class='fa fa-italic'></i>&nbsp;
+<i class='fa fa-strikethrough'></i>&nbsp;
+<i class='fa fa-superscript'></i>&nbsp;
+<i class='fa fa-subscript'></i>&nbsp;
+<i class='fa fa-link'></i>&nbsp;
+<i class='fa fa-image'></i>&nbsp;
+<i class='fa fa-table'></i>&nbsp;
+<i class='fa fa-quote-left'></i>&nbsp;
+<i class='fa fa-list-ul'></i>&nbsp;
+<i class='fa fa-list-ol'></i>&nbsp;
+<tt class='mono_tool'>mono</tt>&nbsp;
+<mark>mark</mark></tt>&nbsp;
+<i class='fa fa-paragraph'></i>1-para&nbsp;
 <span>
 
 You use the editing toolbar by optionally selecting some text and then clicking on the relevant button. This puts Markdown markup around the selected text, to perform the relevant function.
